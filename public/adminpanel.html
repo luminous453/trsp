@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <title>Админ панель</title>
+</head>
+<body class="bg-pink-50">
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold text-center mb-8 text-pink-700">Админ панель</h1>
+
+    <div class="flex justify-center mb-8">
+        <img src="https://i.pinimg.com/736x/c8/cc/24/c8cc24bba37a25c009647b8875aae0e3.jpg" alt="Котик" class="rounded-full shadow-lg">
+    </div>
+
+    <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <h2 class="text-2xl font-semibold mb-4 text-pink-700">Чат</h2>
+        <div id="chatMessages" class="mb-4 h-64 overflow-y-auto border border-pink-300 rounded-lg p-4 bg-pink-50">
+
+        </div>
+        <div id="chatForm" class="flex space-x-4">
+            <input type="text" id="chatInput" class="w-full px-3 py-2 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500" placeholder="Введите сообщение..." required/>
+            <button class="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500" onclick="sendMessage()">Отправить</button>
+        </div>
+    </div>
+
+    <div class="space-y-8">
+
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-semibold mb-4 text-pink-700">Категории</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                    <table class="w-full border-collapse">
+                        <thead>
+                        <tr class="bg-pink-100">
+                            <th class="border border-pink-300 px-4 py-2 text-left">Id</th>
+                            <th class="border border-pink-300 px-4 py-2 text-left">Название</th>
+                            <th class="border border-pink-300 px-4 py-2 text-left">Действия</th>
+                        </tr>
+                        </thead>
+                        <tbody id="categoryTableBody"></tbody>
+                    </table>
+                </div>
+                <form id="categoryForm" class="space-y-4">
+                    <div>
+                        <label class="block text-pink-700 text-sm font-bold mb-2" for="categoryId">
+                            ID изменяемой категории
+                        </label>
+                        <input class="w-full px-3 py-2 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500" id="categoryId" type="number" placeholder="Введите ID категории если хотите изменить её">
+                    </div>
+                    <div>
+                        <label class="block text-pink-700 text-sm font-bold mb-2" for="categoryName">
+                            Название категории
+                        </label>
+                        <input class="w-full px-3 py-2 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500" id="categoryName" type="text" placeholder="Название категории">
+                    </div>
+                    <button class="w-full bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500" type="submit">
+                        Сохранить
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Продукты -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-semibold mb-4 text-pink-700">Продукты</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div>
+                    <table class="w-full border-collapse">
+                        <thead>
+                        <tr class="bg-pink-100">
+                            <th class="border border-pink-300 px-4 py-2 text-left">Id</th>
+                            <th class="border border-pink-300 px-4 py-2 text-left">Название</th>
+                            <th class="border border-pink-300 px-4 py-2 text-left">Цена</th>
+                            <th class="border border-pink-300 px-4 py-2 text-left">Описание</th>
+                            <th class="border border-pink-300 px-4 py-2 text-left">ID категорий</th>
+                            <th class="border border-pink-300 px-4 py-2 text-left">Действия</th>
+                        </tr>
+                        </thead>
+                        <tbody id="productsTableBody"></tbody>
+                    </table>
+                </div>
+                <form id="productForm" class="space-y-4">
+                    <div>
+                        <label class="block text-pink-700 text-sm font-bold mb-2" for="productId">
+                            ID изменяемого продукта
+                        </label>
+                        <input class="w-full px-3 py-2 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500" id="productId" type="number" placeholder="Введите ID продукта если хотите изменить его">
+                    </div>
+                    <div>
+                        <label class="block text-pink-700 text-sm font-bold mb-2" for="productName">
+                            Название продукта
+                        </label>
+                        <input class="w-full px-3 py-2 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500" id="productName" type="text" placeholder="Название продукта">
+                    </div>
+                    <div>
+                        <label class="block text-pink-700 text-sm font-bold mb-2" for="productPrice">
+                            Цена продукта
+                        </label>
+                        <input class="w-full px-3 py-2 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500" id="productPrice" type="number" placeholder="Цена продукта">
+                    </div>
+                    <div>
+                        <label class="block text-pink-700 text-sm font-bold mb-2" for="productDescription">
+                            Описание продукта
+                        </label>
+                        <input class="w-full px-3 py-2 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500" id="productDescription" type="text" placeholder="Описание продукта">
+                    </div>
+                    <div>
+                        <label class="block text-pink-700 text-sm font-bold mb-2" for="productCategoryIds">
+                            ID категорий продукта
+                        </label>
+                        <input class="w-full px-3 py-2 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500" id="productCategoryIds" type="text" placeholder="ID категорий продукта через запятую (к примеру 42,13)">
+                    </div>
+                    <button class="w-full bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500" type="submit">
+                        Сохранить
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script>
+    function productDeleteClick(productId) {
+        $.ajax({
+            url: `/products/${productId}`,
+            method: 'delete',
+            success: () => {
+                location.reload();
+            },
+        });
+    }
+
+    function categoryDeleteClick(categoryId) {
+        $.ajax({
+            url: `/categories/${categoryId}`,
+            method: 'delete',
+            success: () => {
+                location.reload();
+            },
+        });
+    }
+
+    let products, categories;
+    $.ajax({
+        url: '/products',
+        method: 'get',
+        success: (data) => {
+            products = data;
+            let productsRowsHTML = '';
+            for (const product of products) {
+                productsRowsHTML += '<tr class="hover:bg-pink-50">'
+                productsRowsHTML += `<td class="border border-pink-300 px-4 py-2">${product.id}</td>`;
+                productsRowsHTML += `<td class="border border-pink-300 px-4 py-2">${product.name}</td>`;
+                productsRowsHTML += `<td class="border border-pink-300 px-4 py-2">${product.price}</td>`;
+                productsRowsHTML += `<td class="border border-pink-300 px-4 py-2">${product.description}</td>`;
+                productsRowsHTML += `<td class="border border-pink-300 px-4 py-2">${product.categoryIds}</td>`;
+                productsRowsHTML += `<td class="border border-pink-300 px-4 py-2">
+                    <button class="bg-red-400 hover:bg-red-600 text-white font-bold py-1 px-3 rounded focus:outline-none focus:ring-2 focus:ring-red-500" type="button" onclick="productDeleteClick(${product.id})">Удалить</button>
+                  </td>`;
+                productsRowsHTML += '</tr>';
+            }
+            $('#productsTableBody').html(productsRowsHTML);
+        }
+    });
+    $.ajax({
+        url: '/categories',
+        method: 'get',
+        success: (data) => {
+            categories = data;
+            let categoriesRowsHTML = '';
+            for (const category of categories) {
+                categoriesRowsHTML += '<tr class="hover:bg-pink-50">'
+                categoriesRowsHTML += `<td class="border border-pink-300 px-4 py-2">${category.id}</td>`;
+                categoriesRowsHTML += `<td class="border border-pink-300 px-4 py-2">${category.name}</td>`;
+                categoriesRowsHTML += `<td class="border border-pink-300 px-4 py-2">
+                    <button class="bg-red-400 hover:bg-red-600 text-white font-bold py-1 px-3 rounded focus:outline-none focus:ring-2 focus:ring-red-500" type="button" onclick="categoryDeleteClick(${category.id})">Удалить</button>
+                  </td>`;
+                categoriesRowsHTML += '</tr>';
+            }
+            $('#categoryTableBody').html(categoriesRowsHTML);
+        }
+    });
+
+    $('#categoryForm').on('submit', (e) => {
+        e.preventDefault();
+        let categoryId, categoryName;
+        categoryId = $('#categoryId').val();
+        categoryName = $('#categoryName').val();
+
+        if (categoryId) {
+            $.ajax({
+                url: `/categories/${categoryId}`,
+                method: 'put',
+                data: JSON.stringify({
+                    name: categoryName,
+                }),
+                contentType: 'application/json',
+                success: () => {
+                    location.reload();
+                }
+            });
+            return;
+        }
+
+        $.ajax({
+            url: '/categories',
+            method: 'post',
+            data: JSON.stringify({
+                name: categoryName,
+            }),
+            contentType: 'application/json',
+            success: () => {
+                location.reload();
+            }
+        });
+    });
+
+    $('#productForm').on('submit', (e) => {
+        e.preventDefault();
+        let productId, productName, productPrice, productDescription, productCategoryIds;
+        productId = $('#productId').val();
+        productName = $('#productName').val();
+        productPrice = $('#productPrice').val();
+        productDescription = $('#productDescription').val();
+        productCategoryIds = $('#productCategoryIds').val().split(',').map((i) => parseInt(i, 10));
+
+        if (productId) {
+            $.ajax({
+                url: `/products/${productId}`,
+                method: 'put',
+                data: JSON.stringify({
+                    name: productName,
+                    price: productPrice,
+                    description: productDescription,
+                    categoryIds: productCategoryIds,
+                }),
+                contentType: 'application/json',
+                success: () => {
+                    location.reload();
+                }
+            });
+            return;
+        }
+
+        $.ajax({
+            url: '/products',
+            method: 'post',
+            data: JSON.stringify({
+                name: productName,
+                price: productPrice,
+                description: productDescription,
+                categoryIds: productCategoryIds,
+            }),
+            contentType: 'application/json',
+            success: () => {
+                location.reload();
+            }
+        });
+    });
+</script>
+<script>
+    const connection = new WebSocket("ws://localhost:9000");
+    function sendMessage() {
+        text = document.getElementById("chatInput").value
+        connection.send(JSON.stringify({sender:"admin", content: text}))
+        document.getElementById("chatInput").value = ''
+
+    }
+    connection.onmessage = (event) => {
+        console.log(event)
+        const data = JSON.parse(event.data)
+        message = document.createElement('p');
+        message.textContent = `${data.sender === 'admin' ? 'Вы' : 'Пользователь'}: ${data.content}`;
+        document.getElementById('chatMessages').append(message);
+
+    }
+</script>
+</body>
+</html>

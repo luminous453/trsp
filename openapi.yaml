@@ -1,0 +1,178 @@
+openapi: 3.0.3
+info:
+  title: Swagger Petstore - OpenAPI 3.0
+  version: 1.0.11
+servers:
+  - url: http://localhost:3000
+paths:
+  /products:
+    get:
+      summary: Получить список продуктов
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    price:
+                      type: integer
+                    description:
+                      type: string
+                    categoryIds:
+                      type: array
+                      items:
+                        type: integer
+
+    post:
+      summary: Создать новый продукт
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                price:
+                  type: integer
+                description:
+                  type: string
+                categoryIds:
+                  type: array
+                  items:
+                    type: integer
+      responses:
+        '201':
+          description: Продукт создан
+        '404':
+          description: Категории не существует
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Category not found."
+
+  /products/{id}:
+    put:
+      summary: Обновить продукт по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID продукта
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                price:
+                  type: integer
+                description:
+                  type: string
+                categoryIds:
+                  type: array
+                  items:
+                    type: integer
+      responses:
+        '200':
+          description: Продукт обновлен
+
+    delete:
+      summary: Удалить продукт по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID задачи
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Продукт удален
+
+  /categories:
+    get:
+      summary: Получить список категорий
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+
+    post:
+      summary: Создать новую категорию
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '201':
+          description: Категория создана
+
+  /categories/{id}:
+    put:
+      summary: Обновить категорию по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID категории
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        '200':
+          description: Категория обновлена
+
+    delete:
+      summary: Удалить категорию по ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID категории
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Категория удалена

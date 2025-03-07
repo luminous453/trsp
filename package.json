@@ -1,0 +1,31 @@
+{
+  "name": "pr3",
+  "version": "1.0.0",
+  "main": "admin_server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon -e js, json, graphql"
+  },
+  "private": true,
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "express": "^4.21.2",
+    "express-graphql": "^0.12.0",
+    "graphql": "^15.10.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "ws": "^8.18.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luminous453/prac4.git"
+  },
+  "bugs": {
+    "url": "https://github.com/luminous453/prac4/issues"
+  },
+  "homepage": "https://github.com/luminous453/prac4#readme",
+  "description": ""
+}
