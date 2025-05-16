@@ -293,14 +293,16 @@
         // Добавляем товары
         order.items.forEach(item => {
             const product = products.find(p => p.id === item.productId);
-            const itemTotal = item.price * item.quantity;
+            const itemPrice = item.price || (product ? product.price : 0);
+            const itemQuantity = item.quantity || 0;
+            const itemTotal = itemPrice * itemQuantity;
             totalAmount += itemTotal;
             
             orderHTML += `
                 <tr>
                     <td class="border border-pink-300 px-4 py-2">${product ? product.name : `Товар #${item.productId}`}</td>
-                    <td class="border border-pink-300 px-4 py-2">${item.price} руб.</td>
-                    <td class="border border-pink-300 px-4 py-2">${item.quantity}</td>
+                    <td class="border border-pink-300 px-4 py-2">${itemPrice} руб.</td>
+                    <td class="border border-pink-300 px-4 py-2">${itemQuantity}</td>
                     <td class="border border-pink-300 px-4 py-2">${itemTotal} руб.</td>
                 </tr>
             `;
@@ -309,7 +311,7 @@
         orderHTML += `
                     </tbody>
                 </table>
-                <p class="text-right mt-4 text-xl font-semibold text-pink-700">Итого: ${totalAmount} руб.</p>
+                <p class="text-right mt-4 text-xl font-semibold text-pink-700">Итого: ${order.totalAmount || totalAmount} руб.</p>
             </div>
         `;
         
@@ -524,13 +526,16 @@
             // Собираем товары
             const items = [];
             $('.order-item').each(function() {
-                const productId = parseInt($(this).find('.order-product-select').val());
+                const productSelect = $(this).find('.order-product-select');
+                const productId = parseInt(productSelect.val());
                 const quantity = parseInt($(this).find('.order-quantity').val());
+                const product = products.find(p => p.id === productId);
                 
-                if (productId && quantity > 0) {
+                if (productId && quantity > 0 && product) {
                     items.push({
                         productId,
-                        quantity
+                        quantity,
+                        price: product.price
                     });
                 }
             });

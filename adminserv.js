@@ -101,18 +101,32 @@ app.post('/orders', (req, res) => {
             return res.status(400).json({ message: 'Order must contain at least one item' });
         }
         
+        // Enrich items with product information
+        const enrichedItems = items.map(item => {
+            const product = jsonData.products.find(p => p.id === item.productId);
+            if (!product) {
+                return {
+                    ...item,
+                    price: 0
+                };
+            }
+            return {
+                ...item,
+                price: product.price
+            };
+        });
+        
         // Create order
         const newOrder = {
             id: jsonData.orders.length + 1,
             customerName,
             customerEmail,
             customerPhone,
-            items: items,
+            items: enrichedItems,
             status: 'new',
             createdAt: new Date().toISOString(),
-            totalAmount: items.reduce((total, item) => {
-                const product = jsonData.products.find(p => p.id === item.productId);
-                return total + (product ? product.price * item.quantity : 0);
+            totalAmount: enrichedItems.reduce((total, item) => {
+                return total + (item.price * item.quantity);
             }, 0)
         };
         
