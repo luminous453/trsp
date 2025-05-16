@@ -1,8 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
-app.use(express.static('public'))
+app.use(express.static('public'));
+app.use(cors({origin: '*'}));
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/adminpanel.html')
@@ -56,6 +58,115 @@ app.get('/categories', (req, res) => {
 
         let jsonData = JSON.parse(data);
         res.json(jsonData.categories);
+    });
+});
+
+// Endpoints for cart and orders
+app.get('/cart', (req, res) => {
+    fs.readFile('./data.json', 'utf-8', function(err, data) {
+        if (err) throw err
+
+        let jsonData = JSON.parse(data);
+        const cartWithProducts = jsonData.cart.map(item => {
+            const product = jsonData.products.find(p => p.id === item.productId);
+            return {
+                ...item,
+                product
+            };
+        });
+        res.json(cartWithProducts);
+    });
+});
+
+app.get('/orders', (req, res) => {
+    fs.readFile('./data.json', 'utf-8', function(err, data) {
+        if (err) throw err
+
+        let jsonData = JSON.parse(data);
+        res.json(jsonData.orders);
+    });
+});
+
+// Create new order
+app.post('/orders', (req, res) => {
+    const { customerName, customerEmail, customerPhone, items } = req.body;
+    
+    fs.readFile('./data.json', 'utf-8', function(err, data) {
+        if (err) throw err
+
+        let jsonData = JSON.parse(data);
+        
+        // Validate items
+        if (!items || !Array.isArray(items) || items.length === 0) {
+            return res.status(400).json({ message: 'Order must contain at least one item' });
+        }
+        
+        // Create order
+        const newOrder = {
+            id: jsonData.orders.length + 1,
+            customerName,
+            customerEmail,
+            customerPhone,
+            items: items,
+            status: 'new',
+            createdAt: new Date().toISOString(),
+            totalAmount: items.reduce((total, item) => {
+                const product = jsonData.products.find(p => p.id === item.productId);
+                return total + (product ? product.price * item.quantity : 0);
+            }, 0)
+        };
+        
+        jsonData.orders.push(newOrder);
+        
+        fs.writeFile('./data.json', JSON.stringify(jsonData), 'utf-8', function(err) {
+            if (err) throw err;
+            res.status(201).json(newOrder);
+        });
+    });
+});
+
+// Update order status
+app.put('/orders/:id', (req, res) => {
+    const orderId = parseInt(req.params.id);
+    const { status } = req.body;
+    
+    if (!status || !['new', 'processing', 'completed', 'cancelled'].includes(status)) {
+        return res.status(400).json({ message: 'Invalid status' });
+    }
+    
+    fs.readFile('./data.json', 'utf-8', function(err, data) {
+        if (err) throw err
+
+        let jsonData = JSON.parse(data);
+        const order = jsonData.orders.find(o => o.id === orderId);
+        
+        if (!order) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+        
+        order.status = status;
+        
+        fs.writeFile('./data.json', JSON.stringify(jsonData), 'utf-8', function(err) {
+            if (err) throw err;
+            res.json(order);
+        });
+    });
+});
+
+// Delete order
+app.delete('/orders/:id', (req, res) => {
+    const orderId = parseInt(req.params.id);
+    
+    fs.readFile('./data.json', 'utf-8', function(err, data) {
+        if (err) throw err
+
+        let jsonData = JSON.parse(data);
+        jsonData.orders = jsonData.orders.filter(o => o.id !== orderId);
+        
+        fs.writeFile('./data.json', JSON.stringify(jsonData), 'utf-8', function(err) {
+            if (err) throw err;
+            res.status(204).send();
+        });
     });
 });
 

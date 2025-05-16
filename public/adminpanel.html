@@ -14,6 +14,14 @@
         <img src="https://i.pinimg.com/736x/c8/cc/24/c8cc24bba37a25c009647b8875aae0e3.jpg" alt="Котик" class="rounded-full shadow-lg">
     </div>
 
+    <!-- Навигация -->
+    <div class="flex justify-center mb-8">
+        <div class="inline-flex rounded-md shadow-sm" role="group">
+            <button id="nav-products" class="bg-pink-500 text-white px-4 py-2 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-pink-500">Товары</button>
+            <button id="nav-orders" class="bg-pink-200 text-pink-700 px-4 py-2 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-pink-500">Заказы</button>
+        </div>
+    </div>
+
     <div class="bg-white rounded-lg shadow-md p-6 mb-8">
         <h2 class="text-2xl font-semibold mb-4 text-pink-700">Чат</h2>
         <div id="chatMessages" class="mb-4 h-64 overflow-y-auto border border-pink-300 rounded-lg p-4 bg-pink-50">
@@ -25,8 +33,8 @@
         </div>
     </div>
 
-    <div class="space-y-8">
-
+    <!-- Секция товаров -->
+    <div id="products-section" class="space-y-8">
         <div class="bg-white rounded-lg shadow-md p-6">
             <h2 class="text-2xl font-semibold mb-4 text-pink-700">Категории</h2>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -119,9 +127,105 @@
             </div>
         </div>
     </div>
+
+    <!-- Секция заказов -->
+    <div id="orders-section" class="space-y-8 hidden">
+        <!-- Список заказов -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-semibold mb-4 text-pink-700">Заказы</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse">
+                    <thead>
+                    <tr class="bg-pink-100">
+                        <th class="border border-pink-300 px-4 py-2 text-left">ID</th>
+                        <th class="border border-pink-300 px-4 py-2 text-left">Клиент</th>
+                        <th class="border border-pink-300 px-4 py-2 text-left">Контакты</th>
+                        <th class="border border-pink-300 px-4 py-2 text-left">Сумма</th>
+                        <th class="border border-pink-300 px-4 py-2 text-left">Статус</th>
+                        <th class="border border-pink-300 px-4 py-2 text-left">Дата</th>
+                        <th class="border border-pink-300 px-4 py-2 text-left">Действия</th>
+                    </tr>
+                    </thead>
+                    <tbody id="ordersTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Создание заказа -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-2xl font-semibold mb-4 text-pink-700">Создать заказ</h2>
+            <form id="createOrderForm" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-pink-700 text-sm font-bold mb-2" for="orderCustomerName">
+                            Имя клиента *
+                        </label>
+                        <input class="w-full px-3 py-2 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500" id="orderCustomerName" type="text" required>
+                    </div>
+                    <div>
+                        <label class="block text-pink-700 text-sm font-bold mb-2" for="orderCustomerEmail">
+                            Email
+                        </label>
+                        <input class="w-full px-3 py-2 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500" id="orderCustomerEmail" type="email">
+                    </div>
+                    <div>
+                        <label class="block text-pink-700 text-sm font-bold mb-2" for="orderCustomerPhone">
+                            Телефон
+                        </label>
+                        <input class="w-full px-3 py-2 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500" id="orderCustomerPhone" type="tel">
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold mb-2 text-pink-700">Товары в заказе</h3>
+                    <div id="orderItems" class="space-y-2 mb-4">
+                        <!-- Здесь будут добавляться элементы заказа -->
+                    </div>
+                    <button type="button" id="addOrderItem" class="bg-pink-300 hover:bg-pink-400 text-pink-800 font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+                        Добавить товар
+                    </button>
+                </div>
+
+                <button class="w-full bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500" type="submit">
+                    Создать заказ
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Модальное окно просмотра заказа -->
+    <div id="viewOrderModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg shadow-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-semibold text-pink-700">Информация о заказе</h2>
+                <button id="closeViewOrderModal" class="text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div id="orderDetails" class="mb-4">
+                <!-- Детали заказа будут здесь -->
+            </div>
+            <div class="mt-4">
+                <h3 class="text-lg font-semibold text-pink-700 mb-2">Изменить статус</h3>
+                <div class="flex space-x-2">
+                    <button data-status="new" class="status-btn bg-blue-100 text-blue-800 px-3 py-1 rounded">Новый</button>
+                    <button data-status="processing" class="status-btn bg-yellow-100 text-yellow-800 px-3 py-1 rounded">Обработка</button>
+                    <button data-status="completed" class="status-btn bg-green-100 text-green-800 px-3 py-1 rounded">Выполнен</button>
+                    <button data-status="cancelled" class="status-btn bg-red-100 text-red-800 px-3 py-1 rounded">Отменен</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script>
+    // Переменные для хранения данных
+    let products, categories, orders;
+    let currentOrderId = null;
+    
+    // Функции для управления товарами и категориями
     function productDeleteClick(productId) {
         $.ajax({
             url: `/products/${productId}`,
@@ -141,48 +245,369 @@
             },
         });
     }
-
-    let products, categories;
-    $.ajax({
-        url: '/products',
-        method: 'get',
-        success: (data) => {
-            products = data;
-            let productsRowsHTML = '';
-            for (const product of products) {
-                productsRowsHTML += '<tr class="hover:bg-pink-50">'
-                productsRowsHTML += `<td class="border border-pink-300 px-4 py-2">${product.id}</td>`;
-                productsRowsHTML += `<td class="border border-pink-300 px-4 py-2">${product.name}</td>`;
-                productsRowsHTML += `<td class="border border-pink-300 px-4 py-2">${product.price}</td>`;
-                productsRowsHTML += `<td class="border border-pink-300 px-4 py-2">${product.description}</td>`;
-                productsRowsHTML += `<td class="border border-pink-300 px-4 py-2">${product.categoryIds}</td>`;
-                productsRowsHTML += `<td class="border border-pink-300 px-4 py-2">
-                    <button class="bg-red-400 hover:bg-red-600 text-white font-bold py-1 px-3 rounded focus:outline-none focus:ring-2 focus:ring-red-500" type="button" onclick="productDeleteClick(${product.id})">Удалить</button>
-                  </td>`;
-                productsRowsHTML += '</tr>';
-            }
-            $('#productsTableBody').html(productsRowsHTML);
+    
+    // Функции для управления заказами
+    function orderDeleteClick(orderId) {
+        $.ajax({
+            url: `/orders/${orderId}`,
+            method: 'delete',
+            success: () => {
+                loadOrders();
+            },
+        });
+    }
+    
+    function viewOrderClick(orderId) {
+        const order = orders.find(o => o.id === orderId);
+        if (!order) return;
+        
+        currentOrderId = orderId;
+        
+        // Заполняем информацию о заказе
+        let orderHTML = `
+            <div class="mb-4">
+                <h3 class="text-lg font-semibold text-pink-700">Информация о клиенте</h3>
+                <p><strong>Имя:</strong> ${order.customerName}</p>
+                <p><strong>Email:</strong> ${order.customerEmail || '-'}</p>
+                <p><strong>Телефон:</strong> ${order.customerPhone || '-'}</p>
+                <p><strong>Дата создания:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
+                <p><strong>Статус:</strong> <span class="order-status">${getStatusText(order.status)}</span></p>
+            </div>
+            
+            <div>
+                <h3 class="text-lg font-semibold text-pink-700 mb-2">Товары в заказе</h3>
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-pink-100">
+                            <th class="border border-pink-300 px-4 py-2 text-left">Название</th>
+                            <th class="border border-pink-300 px-4 py-2 text-left">Цена</th>
+                            <th class="border border-pink-300 px-4 py-2 text-left">Количество</th>
+                            <th class="border border-pink-300 px-4 py-2 text-left">Сумма</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+        
+        let totalAmount = 0;
+        
+        // Добавляем товары
+        order.items.forEach(item => {
+            const product = products.find(p => p.id === item.productId);
+            const itemTotal = item.price * item.quantity;
+            totalAmount += itemTotal;
+            
+            orderHTML += `
+                <tr>
+                    <td class="border border-pink-300 px-4 py-2">${product ? product.name : `Товар #${item.productId}`}</td>
+                    <td class="border border-pink-300 px-4 py-2">${item.price} руб.</td>
+                    <td class="border border-pink-300 px-4 py-2">${item.quantity}</td>
+                    <td class="border border-pink-300 px-4 py-2">${itemTotal} руб.</td>
+                </tr>
+            `;
+        });
+        
+        orderHTML += `
+                    </tbody>
+                </table>
+                <p class="text-right mt-4 text-xl font-semibold text-pink-700">Итого: ${totalAmount} руб.</p>
+            </div>
+        `;
+        
+        $('#orderDetails').html(orderHTML);
+        
+        // Выделяем текущий статус
+        $('.status-btn').removeClass('ring-2 ring-pink-500');
+        $(`.status-btn[data-status="${order.status}"]`).addClass('ring-2 ring-pink-500');
+        
+        // Показываем модальное окно
+        $('#viewOrderModal').removeClass('hidden');
+    }
+    
+    function getStatusText(status) {
+        switch (status) {
+            case 'new': return 'Новый';
+            case 'processing': return 'Обработка';
+            case 'completed': return 'Выполнен';
+            case 'cancelled': return 'Отменен';
+            default: return status;
         }
-    });
-    $.ajax({
-        url: '/categories',
-        method: 'get',
-        success: (data) => {
-            categories = data;
-            let categoriesRowsHTML = '';
-            for (const category of categories) {
-                categoriesRowsHTML += '<tr class="hover:bg-pink-50">'
-                categoriesRowsHTML += `<td class="border border-pink-300 px-4 py-2">${category.id}</td>`;
-                categoriesRowsHTML += `<td class="border border-pink-300 px-4 py-2">${category.name}</td>`;
-                categoriesRowsHTML += `<td class="border border-pink-300 px-4 py-2">
-                    <button class="bg-red-400 hover:bg-red-600 text-white font-bold py-1 px-3 rounded focus:outline-none focus:ring-2 focus:ring-red-500" type="button" onclick="categoryDeleteClick(${category.id})">Удалить</button>
-                  </td>`;
-                categoriesRowsHTML += '</tr>';
-            }
-            $('#categoryTableBody').html(categoriesRowsHTML);
+    }
+    
+    function getStatusClass(status) {
+        switch (status) {
+            case 'new': return 'bg-blue-100 text-blue-800';
+            case 'processing': return 'bg-yellow-100 text-yellow-800';
+            case 'completed': return 'bg-green-100 text-green-800';
+            case 'cancelled': return 'bg-red-100 text-red-800';
+            default: return 'bg-gray-100 text-gray-800';
         }
+    }
+    
+    // Загрузка данных
+    function loadProducts() {
+        $.ajax({
+            url: '/products',
+            method: 'get',
+            success: (data) => {
+                products = data;
+                let productsRowsHTML = '';
+                for (const product of products) {
+                    productsRowsHTML += '<tr class="hover:bg-pink-50">'
+                    productsRowsHTML += `<td class="border border-pink-300 px-4 py-2">${product.id}</td>`;
+                    productsRowsHTML += `<td class="border border-pink-300 px-4 py-2">${product.name}</td>`;
+                    productsRowsHTML += `<td class="border border-pink-300 px-4 py-2">${product.price}</td>`;
+                    productsRowsHTML += `<td class="border border-pink-300 px-4 py-2">${product.description}</td>`;
+                    productsRowsHTML += `<td class="border border-pink-300 px-4 py-2">${product.categoryIds}</td>`;
+                    productsRowsHTML += `<td class="border border-pink-300 px-4 py-2">
+                        <button class="bg-red-400 hover:bg-red-600 text-white font-bold py-1 px-3 rounded focus:outline-none focus:ring-2 focus:ring-red-500" type="button" onclick="productDeleteClick(${product.id})">Удалить</button>
+                      </td>`;
+                    productsRowsHTML += '</tr>';
+                }
+                $('#productsTableBody').html(productsRowsHTML);
+                
+                // Обновляем список товаров для создания заказа
+                updateProductDropdown();
+            }
+        });
+    }
+    
+    function loadCategories() {
+        $.ajax({
+            url: '/categories',
+            method: 'get',
+            success: (data) => {
+                categories = data;
+                let categoriesRowsHTML = '';
+                for (const category of categories) {
+                    categoriesRowsHTML += '<tr class="hover:bg-pink-50">'
+                    categoriesRowsHTML += `<td class="border border-pink-300 px-4 py-2">${category.id}</td>`;
+                    categoriesRowsHTML += `<td class="border border-pink-300 px-4 py-2">${category.name}</td>`;
+                    categoriesRowsHTML += `<td class="border border-pink-300 px-4 py-2">
+                        <button class="bg-red-400 hover:bg-red-600 text-white font-bold py-1 px-3 rounded focus:outline-none focus:ring-2 focus:ring-red-500" type="button" onclick="categoryDeleteClick(${category.id})">Удалить</button>
+                      </td>`;
+                    categoriesRowsHTML += '</tr>';
+                }
+                $('#categoryTableBody').html(categoriesRowsHTML);
+            }
+        });
+    }
+    
+    function loadOrders() {
+        $.ajax({
+            url: '/orders',
+            method: 'get',
+            success: (data) => {
+                orders = data;
+                let ordersRowsHTML = '';
+                
+                if (orders.length === 0) {
+                    $('#ordersTableBody').html('<tr><td colspan="7" class="text-center py-4 text-gray-500">Нет заказов</td></tr>');
+                    return;
+                }
+                
+                for (const order of orders) {
+                    const contacts = [];
+                    if (order.customerEmail) contacts.push(order.customerEmail);
+                    if (order.customerPhone) contacts.push(order.customerPhone);
+                    
+                    ordersRowsHTML += '<tr class="hover:bg-pink-50">';
+                    ordersRowsHTML += `<td class="border border-pink-300 px-4 py-2">${order.id}</td>`;
+                    ordersRowsHTML += `<td class="border border-pink-300 px-4 py-2">${order.customerName}</td>`;
+                    ordersRowsHTML += `<td class="border border-pink-300 px-4 py-2">${contacts.join('<br>') || '-'}</td>`;
+                    ordersRowsHTML += `<td class="border border-pink-300 px-4 py-2">${order.totalAmount} руб.</td>`;
+                    ordersRowsHTML += `<td class="border border-pink-300 px-4 py-2">
+                        <span class="px-2 py-1 rounded ${getStatusClass(order.status)}">${getStatusText(order.status)}</span>
+                    </td>`;
+                    ordersRowsHTML += `<td class="border border-pink-300 px-4 py-2">${new Date(order.createdAt).toLocaleDateString()}</td>`;
+                    ordersRowsHTML += `<td class="border border-pink-300 px-4 py-2">
+                        <button class="bg-pink-400 hover:bg-pink-600 text-white font-bold py-1 px-3 rounded focus:outline-none focus:ring-2 focus:ring-pink-500 mr-2" type="button" onclick="viewOrderClick(${order.id})">Просмотр</button>
+                        <button class="bg-red-400 hover:bg-red-600 text-white font-bold py-1 px-3 rounded focus:outline-none focus:ring-2 focus:ring-red-500" type="button" onclick="orderDeleteClick(${order.id})">Удалить</button>
+                    </td>`;
+                    ordersRowsHTML += '</tr>';
+                }
+                
+                $('#ordersTableBody').html(ordersRowsHTML);
+            }
+        });
+    }
+    
+    // Функция для обновления выпадающего списка товаров
+    function updateProductDropdown() {
+        // Создаем HTML для выпадающего списка товаров
+        let productOptionsHTML = '';
+        products.forEach(product => {
+            productOptionsHTML += `<option value="${product.id}" data-price="${product.price}">${product.name} - ${product.price} руб.</option>`;
+        });
+        
+        // Обновляем все существующие выпадающие списки
+        $('.order-product-select').each(function() {
+            const selectedValue = $(this).val();
+            $(this).html(productOptionsHTML);
+            if (selectedValue) {
+                $(this).val(selectedValue);
+            }
+        });
+    }
+    
+    // Функция для добавления нового элемента заказа
+    function addOrderItemRow() {
+        const itemCount = $('#orderItems .order-item').length;
+        const itemId = new Date().getTime(); // Уникальный ID для элемента
+        
+        let productOptionsHTML = '';
+        products.forEach(product => {
+            productOptionsHTML += `<option value="${product.id}" data-price="${product.price}">${product.name} - ${product.price} руб.</option>`;
+        });
+        
+        const itemHTML = `
+            <div class="order-item flex items-center space-x-2" data-id="${itemId}">
+                <select class="order-product-select w-1/2 px-3 py-2 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500">
+                    ${productOptionsHTML}
+                </select>
+                <input type="number" class="order-quantity w-1/4 px-3 py-2 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500" min="1" value="1">
+                <button type="button" class="remove-order-item bg-red-400 hover:bg-red-600 text-white font-bold py-1 px-3 rounded focus:outline-none focus:ring-2 focus:ring-red-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+        `;
+        
+        $('#orderItems').append(itemHTML);
+        
+        // Обработчик для удаления элемента
+        $(`#orderItems .order-item[data-id="${itemId}"] .remove-order-item`).on('click', function() {
+            $(this).closest('.order-item').remove();
+        });
+    }
+    
+    // Инициализация
+    $(document).ready(function() {
+        // Загрузка данных
+        loadProducts();
+        loadCategories();
+        loadOrders();
+        
+        // Навигация между разделами
+        $('#nav-products').on('click', function() {
+            $('#products-section').removeClass('hidden');
+            $('#orders-section').addClass('hidden');
+            $('#nav-products').addClass('bg-pink-500 text-white').removeClass('bg-pink-200 text-pink-700');
+            $('#nav-orders').addClass('bg-pink-200 text-pink-700').removeClass('bg-pink-500 text-white');
+        });
+        
+        $('#nav-orders').on('click', function() {
+            $('#products-section').addClass('hidden');
+            $('#orders-section').removeClass('hidden');
+            $('#nav-products').addClass('bg-pink-200 text-pink-700').removeClass('bg-pink-500 text-white');
+            $('#nav-orders').addClass('bg-pink-500 text-white').removeClass('bg-pink-200 text-pink-700');
+        });
+        
+        // Добавление товара в заказ
+        $('#addOrderItem').on('click', function() {
+            addOrderItemRow();
+        });
+        
+        // Добавляем первый элемент заказа по умолчанию
+        setTimeout(() => {
+            addOrderItemRow();
+        }, 500);
+        
+        // Создание заказа
+        $('#createOrderForm').on('submit', function(e) {
+            e.preventDefault();
+            
+            const customerName = $('#orderCustomerName').val();
+            const customerEmail = $('#orderCustomerEmail').val();
+            const customerPhone = $('#orderCustomerPhone').val();
+            
+            // Собираем товары
+            const items = [];
+            $('.order-item').each(function() {
+                const productId = parseInt($(this).find('.order-product-select').val());
+                const quantity = parseInt($(this).find('.order-quantity').val());
+                
+                if (productId && quantity > 0) {
+                    items.push({
+                        productId,
+                        quantity
+                    });
+                }
+            });
+            
+            if (items.length === 0) {
+                alert('Добавьте хотя бы один товар в заказ');
+                return;
+            }
+            
+            // Отправляем запрос на создание заказа
+            $.ajax({
+                url: '/orders',
+                method: 'post',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    customerName,
+                    customerEmail,
+                    customerPhone,
+                    items
+                }),
+                success: (data) => {
+                    // Очищаем форму
+                    $('#orderCustomerName').val('');
+                    $('#orderCustomerEmail').val('');
+                    $('#orderCustomerPhone').val('');
+                    $('#orderItems').empty();
+                    addOrderItemRow();
+                    
+                    // Обновляем список заказов
+                    loadOrders();
+                    
+                    alert('Заказ успешно создан!');
+                },
+                error: (error) => {
+                    alert('Ошибка при создании заказа. Попробуйте еще раз.');
+                }
+            });
+        });
+        
+        // Закрытие модального окна заказа
+        $('#closeViewOrderModal').on('click', function() {
+            $('#viewOrderModal').addClass('hidden');
+            currentOrderId = null;
+        });
+        
+        // Изменение статуса заказа
+        $('.status-btn').on('click', function() {
+            if (!currentOrderId) return;
+            
+            const newStatus = $(this).data('status');
+            
+            $.ajax({
+                url: `/orders/${currentOrderId}`,
+                method: 'put',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    status: newStatus
+                }),
+                success: (data) => {
+                    // Обновляем статус в модальном окне
+                    $('.order-status').text(getStatusText(newStatus));
+                    
+                    // Выделяем текущий статус
+                    $('.status-btn').removeClass('ring-2 ring-pink-500');
+                    $(`.status-btn[data-status="${newStatus}"]`).addClass('ring-2 ring-pink-500');
+                    
+                    // Обновляем список заказов
+                    loadOrders();
+                },
+                error: (error) => {
+                    alert('Ошибка при изменении статуса заказа. Попробуйте еще раз.');
+                }
+            });
+        });
     });
 
+    // Обработчики форм товаров и категорий
     $('#categoryForm').on('submit', (e) => {
         e.preventDefault();
         let categoryId, categoryName;
@@ -199,7 +624,7 @@
                 contentType: 'application/json',
                 success: () => {
                     location.reload();
-                }
+                },
             });
             return;
         }
@@ -213,7 +638,7 @@
             contentType: 'application/json',
             success: () => {
                 location.reload();
-            }
+            },
         });
     });
 
@@ -224,7 +649,7 @@
         productName = $('#productName').val();
         productPrice = $('#productPrice').val();
         productDescription = $('#productDescription').val();
-        productCategoryIds = $('#productCategoryIds').val().split(',').map((i) => parseInt(i, 10));
+        productCategoryIds = $('#productCategoryIds').val().split(',').map(id => parseInt(id.trim()));
 
         if (productId) {
             $.ajax({
@@ -239,7 +664,7 @@
                 contentType: 'application/json',
                 success: () => {
                     location.reload();
-                }
+                },
             });
             return;
         }
@@ -256,7 +681,7 @@
             contentType: 'application/json',
             success: () => {
                 location.reload();
-            }
+            },
         });
     });
 </script>

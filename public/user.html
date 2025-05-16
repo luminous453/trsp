@@ -10,7 +10,80 @@
 <div class="container mx-auto px-4 py-8">
     <h1 class="text-4xl font-bold text-center mb-8 text-pink-700">Пользовательская панель</h1>
 
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-2xl font-semibold text-pink-700">Каталог товаров</h2>
+        <button id="cartButton" class="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+            </svg>
+            Корзина <span id="cartCount" class="ml-1 bg-white text-pink-500 rounded-full px-2">0</span>
+        </button>
+    </div>
+
     <div id="result" class="space-y-8"></div>
+
+    <!-- Модальное окно корзины -->
+    <div id="cartModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg shadow-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-semibold text-pink-700">Корзина</h2>
+                <button id="closeCartModal" class="text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div id="cartItems" class="mb-4">
+                <p class="text-gray-500 text-center py-8">Ваша корзина пуста</p>
+            </div>
+            <div id="cartTotal" class="text-xl font-semibold text-pink-700 mb-4">Итого: 0 руб.</div>
+            <div class="flex space-x-4">
+                <button id="clearCart" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500 w-1/2">
+                    Очистить корзину
+                </button>
+                <button id="checkout" class="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 w-1/2">
+                    Оформить заказ
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно оформления заказа -->
+    <div id="checkoutModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+        <div class="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-semibold text-pink-700">Оформление заказа</h2>
+                <button id="closeCheckoutModal" class="text-gray-500 hover:text-gray-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <form id="checkoutForm" class="space-y-4">
+                <div>
+                    <label class="block text-pink-700 text-sm font-bold mb-2" for="customerName">
+                        Ваше имя *
+                    </label>
+                    <input class="w-full px-3 py-2 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500" id="customerName" type="text" required>
+                </div>
+                <div>
+                    <label class="block text-pink-700 text-sm font-bold mb-2" for="customerEmail">
+                        Email
+                    </label>
+                    <input class="w-full px-3 py-2 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500" id="customerEmail" type="email">
+                </div>
+                <div>
+                    <label class="block text-pink-700 text-sm font-bold mb-2" for="customerPhone">
+                        Телефон
+                    </label>
+                    <input class="w-full px-3 py-2 border border-pink-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500" id="customerPhone" type="tel">
+                </div>
+                <button class="w-full bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500" type="submit">
+                    Подтвердить заказ
+                </button>
+            </form>
+        </div>
+    </div>
 
     <div class="flex justify-center mt-8">
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdwFgr3bB-pc1HNA5W3bdK3Yi6P8mfTb30ug&s" alt="Котик" class="rounded-full shadow-lg">
@@ -28,7 +101,8 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 <script>
-    Query = `{
+    // Загрузка товаров
+    const query = `{
   categories {
     id, name
     products {
@@ -39,7 +113,14 @@
     $.ajax({
         url: '/graphql',
         method: 'post',
-        data: {query: Query},
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+        },
+        data: JSON.stringify({
+            query: query,
+            variables: null,
+        }),
         success: (data) => {
             data = data.data.categories;
             let productsRowsHTML = '';
@@ -52,7 +133,15 @@
                         <div class="p-6">
                             <h3 class="text-xl font-bold mb-2 text-pink-700">${product.name}</h3>
                             <p class="text-lg text-pink-600 mb-4">Цена: ${product.price} руб.</p>
-                            <p class="text-pink-500">${product.description}</p>
+                            <p class="text-pink-500 mb-4">${product.description}</p>
+                            <button 
+                                class="add-to-cart-btn bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 w-full"
+                                data-id="${product.id}"
+                                data-name="${product.name}"
+                                data-price="${product.price}"
+                            >
+                                Добавить в корзину
+                            </button>
                         </div>
                     </div>`;
                 }
@@ -60,7 +149,201 @@
             }
 
             $('#result').html(productsRowsHTML);
+            
+            // Добавление обработчиков для кнопок "Добавить в корзину"
+            $('.add-to-cart-btn').on('click', function() {
+                const productId = $(this).data('id');
+                const productName = $(this).data('name');
+                const productPrice = $(this).data('price');
+                
+                addToCart(productId, productName, productPrice);
+            });
         }
+    });
+    
+    // Функции для работы с корзиной
+    let cart = [];
+    
+    function loadCart() {
+        $.ajax({
+            url: '/api/cart',
+            method: 'get',
+            success: (data) => {
+                cart = data;
+                updateCartUI();
+            }
+        });
+    }
+    
+    function addToCart(productId, productName, productPrice) {
+        $.ajax({
+            url: '/api/cart',
+            method: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                productId: productId,
+                quantity: 1
+            }),
+            success: (data) => {
+                cart = data;
+                updateCartUI();
+                
+                // Показать уведомление
+                showNotification(`${productName} добавлен в корзину`);
+            }
+        });
+    }
+    
+    function removeFromCart(itemId) {
+        $.ajax({
+            url: `/api/cart/${itemId}`,
+            method: 'delete',
+            success: () => {
+                loadCart();
+            }
+        });
+    }
+    
+    function clearCart() {
+        $.ajax({
+            url: '/api/cart',
+            method: 'delete',
+            success: () => {
+                cart = [];
+                updateCartUI();
+                $('#cartModal').addClass('hidden');
+            }
+        });
+    }
+    
+    function updateCartUI() {
+        // Обновление счетчика товаров
+        const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+        $('#cartCount').text(totalItems);
+        
+        // Обновление содержимого модального окна корзины
+        if (cart.length === 0) {
+            $('#cartItems').html('<p class="text-gray-500 text-center py-8">Ваша корзина пуста</p>');
+            $('#cartTotal').text('Итого: 0 руб.');
+            $('#checkout').prop('disabled', true).addClass('opacity-50');
+        } else {
+            let cartHTML = '<div class="space-y-4">';
+            let total = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.product.price * item.quantity;
+                total += itemTotal;
+                
+                cartHTML += `
+                <div class="flex justify-between items-center border-b border-pink-100 pb-4">
+                    <div>
+                        <h3 class="font-semibold text-pink-700">${item.product.name}</h3>
+                        <p class="text-sm text-pink-500">${item.product.price} руб. x ${item.quantity}</p>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="font-semibold mr-4">${itemTotal} руб.</span>
+                        <button class="remove-item text-red-500 hover:text-red-700" data-id="${item.id}">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                `;
+            });
+            
+            cartHTML += '</div>';
+            $('#cartItems').html(cartHTML);
+            $('#cartTotal').text(`Итого: ${total} руб.`);
+            $('#checkout').prop('disabled', false).removeClass('opacity-50');
+            
+            // Добавление обработчиков для кнопок удаления
+            $('.remove-item').on('click', function() {
+                const itemId = $(this).data('id');
+                removeFromCart(itemId);
+            });
+        }
+    }
+    
+    function showNotification(message) {
+        const notification = $(`
+            <div class="fixed bottom-4 right-4 bg-pink-500 text-white px-4 py-2 rounded-lg shadow-lg transition-opacity duration-300">
+                ${message}
+            </div>
+        `);
+        
+        $('body').append(notification);
+        
+        setTimeout(() => {
+            notification.addClass('opacity-0');
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }, 2000);
+    }
+    
+    // Инициализация корзины
+    loadCart();
+    
+    // Обработчики для модального окна корзины
+    $('#cartButton').on('click', function() {
+        $('#cartModal').removeClass('hidden');
+    });
+    
+    $('#closeCartModal').on('click', function() {
+        $('#cartModal').addClass('hidden');
+    });
+    
+    $('#clearCart').on('click', function() {
+        clearCart();
+    });
+    
+    // Обработчики для модального окна оформления заказа
+    $('#checkout').on('click', function() {
+        $('#cartModal').addClass('hidden');
+        $('#checkoutModal').removeClass('hidden');
+    });
+    
+    $('#closeCheckoutModal').on('click', function() {
+        $('#checkoutModal').addClass('hidden');
+    });
+    
+    $('#checkoutForm').on('submit', function(e) {
+        e.preventDefault();
+        
+        const customerName = $('#customerName').val();
+        const customerEmail = $('#customerEmail').val();
+        const customerPhone = $('#customerPhone').val();
+        
+        const items = cart.map(item => ({
+            productId: item.productId,
+            quantity: item.quantity
+        }));
+        
+        $.ajax({
+            url: 'http://localhost:3000/orders',
+            method: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                customerName,
+                customerEmail,
+                customerPhone,
+                items
+            }),
+            success: (data) => {
+                // Очистить корзину после оформления заказа
+                clearCart();
+                
+                // Закрыть модальное окно
+                $('#checkoutModal').addClass('hidden');
+                
+                // Показать уведомление об успешном оформлении заказа
+                showNotification('Заказ успешно оформлен!');
+            },
+            error: (error) => {
+                showNotification('Ошибка при оформлении заказа. Попробуйте еще раз.');
+            }
+        });
     });
 </script>
 <script>
